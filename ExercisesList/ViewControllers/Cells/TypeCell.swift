@@ -14,14 +14,18 @@ class TypeCell: UICollectionViewCell {
     
     private let typeLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .left
-        label.textColor = UIColor(named: ConstColors.greenDark)
-        label.numberOfLines = 1
+        label.textAlignment = .center
+        label.textColor = .white
+        label.numberOfLines = 2
         label.font = .systemFont(ofSize: 16, weight: .bold)
-        //label.sizeToFit()
+        label.lineBreakMode = .byTruncatingTail
+        label.adjustsFontSizeToFitWidth = true // Enable font size adjustment
+        label.minimumScaleFactor = 0.9 // Set the minimum scale factor
+        label.sizeToFit()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
     private lazy var backImage: UIImageView = {
         let image = UIImageView()
         image.layer.cornerRadius = 16
@@ -53,25 +57,15 @@ class TypeCell: UICollectionViewCell {
     }
     
     private func layoutViews(){
-        typeLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(contentView.snp.centerY)
-            make.leading.equalTo(contentView.snp.leading)
-            make.trailing.lessThanOrEqualTo(contentView.snp.trailing)
-        }
-        
         backImage.snp.makeConstraints { make in
-            make.top.equalTo(contentView.snp.top)
-            make.bottom.equalTo(contentView.snp.bottom)
-            make.leading.equalTo(typeLabel.snp.leading).offset(-4)
-            make.trailing.equalTo(typeLabel.snp.trailing).offset(4)
+            make.edges.equalTo(contentView)
         }
-//        backImage.snp.makeConstraints { make in
-//            make.edges.equalTo(contentView)
-//        }
-//        typeLabel.snp.makeConstraints { make in
-//            make.centerX.equalTo(contentView.snp.centerX)
-//            make.centerY.equalTo(contentView.snp.centerY)
-//        }
+        typeLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(contentView.snp.centerX)
+            make.centerY.equalTo(contentView.snp.centerY)
+            make.leading.greaterThanOrEqualTo(backImage.snp.leading).offset(4)
+            make.trailing.lessThanOrEqualTo(backImage.snp.trailing).offset(-4)
+        }
     }
 }
 
