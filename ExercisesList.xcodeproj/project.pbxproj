@@ -25,6 +25,7 @@
 		367269752BBBF2EF007E82E6 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367269742BBBF2EF007E82E6 /* HeaderView.swift */; };
 		367269782BBBF47C007E82E6 /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367269772BBBF47C007E82E6 /* MainPresenter.swift */; };
 		3672697B2BBBF4D1007E82E6 /* MainBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3672697A2BBBF4D1007E82E6 /* MainBuilder.swift */; };
+		3672697F2BBD2C9E007E82E6 /* UIImage + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3672697E2BBD2C9E007E82E6 /* UIImage + ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		367269742BBBF2EF007E82E6 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		367269772BBBF47C007E82E6 /* MainPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPresenter.swift; sourceTree = "<group>"; };
 		3672697A2BBBF4D1007E82E6 /* MainBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainBuilder.swift; sourceTree = "<group>"; };
+		3672697E2BBD2C9E007E82E6 /* UIImage + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				367269642BBBE969007E82E6 /* CompositionalLayout+ ext.swift */,
+				3672697E2BBD2C9E007E82E6 /* UIImage + ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -262,6 +265,7 @@
 				367269462BBBDFA0007E82E6 /* SceneDelegate.swift in Sources */,
 				3672697B2BBBF4D1007E82E6 /* MainBuilder.swift in Sources */,
 				367269652BBBE969007E82E6 /* CompositionalLayout+ ext.swift in Sources */,
+				3672697F2BBD2C9E007E82E6 /* UIImage + ext.swift in Sources */,
 				367269722BBBF14E007E82E6 /* ResultExercisesCell.swift in Sources */,
 				3672695C2BBBE39E007E82E6 /* TypeExercisesModel.swift in Sources */,
 			);

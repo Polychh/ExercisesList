@@ -11,6 +11,25 @@ import SnapKit
 class MainViewController: UIViewController {
     
     var presenter: MainPresenterProtocol!
+    private lazy var searchBar: UISearchBar = {
+        let search = UISearchBar()
+        let image = UIImage(systemName: "magnifyingglass")?.withTintColor(UIColor(named: ConstColors.greenDark) ?? .black, renderingMode: .alwaysOriginal)
+        let clearImage = UIImage(systemName: "xmark.circle.fill")?.withTintColor(UIColor(named: ConstColors.greenDark) ?? .black, renderingMode: .alwaysOriginal)
+        search.setImage(image, for: .search, state: .normal)
+        search.setImage(clearImage, for: .clear, state: .normal)
+        search.delegate = self
+        search.barTintColor = nil
+        search.searchTextField.font = .systemFont(ofSize: 18, weight: .bold)
+        search.tintColor = UIColor(named: ConstColors.greenDark) ?? .black
+        search.searchTextPositionAdjustment = UIOffset(horizontal: 5, vertical: 0)
+        search.searchTextField.placeholder = "Search"
+        search.searchTextField.textColor = UIColor(named: ConstColors.greenDark) ?? .black
+        search.searchTextField.backgroundColor = UIColor(named: ConstColors.yellowLight)
+        search.translatesAutoresizingMaskIntoConstraints = false
+        let attributedPlaceholder = NSAttributedString(string: "Search", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: ConstColors.greenDark) ?? .black])
+        search.searchTextField.attributedPlaceholder = attributedPlaceholder
+        return search
+    }()
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -24,11 +43,12 @@ class MainViewController: UIViewController {
         view.backgroundColor = .white
         setConstrains()
         configureCollectionView()
+        setupAppearenceSeacrhBar()
         
     }
 }
 // MARK: - Config UI Elements
-extension MainViewController{
+private extension MainViewController{
     func configureCollectionView(){
         collectionView.backgroundColor = .white
         collectionView.showsVerticalScrollIndicator = false
@@ -40,6 +60,13 @@ extension MainViewController{
         collectionView.register(TypeCell.self, forCellWithReuseIdentifier: TypeCell.resuseID)
         //        collectionView.register(CoctailCell.self, forCellWithReuseIdentifier: CoctailCell.resuseID)
         collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.resuseID)
+    }
+    
+  func setupAppearenceSeacrhBar(){
+      let backgroundImage = UIImage.imageWithColor(color: .white)
+        searchBar.setBackgroundImage(backgroundImage, for: .any, barMetrics: .default)
+        searchBar.layer.cornerRadius = 12.0
+        searchBar.clipsToBounds = true
     }
 }
 // MARK: - MainViewProtocol
@@ -155,13 +182,30 @@ extension MainViewController: UICollectionViewDelegate{
     
 }
 
+// MARK: - UISearchBarDelegate
+extension MainViewController: UISearchBarDelegate{
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchText = searchBar.text, !searchText.isEmpty else { return }
+        print(searchText)
+        searchBar.resignFirstResponder()
+    }
+}
+
 // MARK: - SetConstrains
 private extension MainViewController{
     func setConstrains(){
         view.addSubview(collectionView)
+        view.addSubview(searchBar)
+        
+        searchBar.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+            make.top.equalTo(view.snp.top).offset(64)
+            make.height.equalTo(70)
+        }
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+            make.top.equalTo(searchBar.snp.bottom).offset(16)
             make.bottom.equalToSuperview()
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
