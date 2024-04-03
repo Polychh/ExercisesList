@@ -38,12 +38,22 @@ class MainViewController: UIViewController {
         return view
     }()
     
+    private let activityIndicator = UIActivityIndicatorView(frame: .zero)
+    
+    private let blurView: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .light)
+        let view = UIVisualEffectView(effect: blurEffect)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.alpha = 0
+        return view
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setConstrains()
         configureCollectionView()
         setupAppearenceSeacrhBar()
+        configActivityIndecator()
         
     }
 }
@@ -59,6 +69,7 @@ private extension MainViewController{
         collectionView.collectionViewLayout = createLayout()
         collectionView.register(TypeCell.self, forCellWithReuseIdentifier: TypeCell.resuseID)
         collectionView.register(ResultExercisesCell.self, forCellWithReuseIdentifier: ResultExercisesCell.resuseID)
+        collectionView.register(EmptyResultCell.self, forCellWithReuseIdentifier: EmptyResultCell.resuseID)
         collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.resuseID)
     }
     
@@ -68,9 +79,33 @@ private extension MainViewController{
         searchBar.layer.cornerRadius = 12.0
         searchBar.clipsToBounds = true
     }
+    
+    func configActivityIndecator(){
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.style = .large
+        activityIndicator.color = UIColor(named: ConstColors.greenDark)
+    }
 }
 // MARK: - MainViewProtocol
 extension MainViewController: MainViewProtocol{
+    func startActivityIndicator() {
+        UIView.animate(withDuration: 0.25) {
+            self.blurView.alpha = 1
+        }
+        activityIndicator.startAnimating()
+    }
+    
+    func stopActivityIndicator() {
+        activityIndicator.stopAnimating()
+        UIView.animate(withDuration: 0.25) {
+            self.blurView.alpha = 0
+        }
+    }
+    
+    func showAlert() {
+        presentAlertOnMainThread(title: "Nothing Found", message: "Please, change parametrs to search", buttonTitle: "OK")
+    }
+    
     func reloadCollectionView() {
         collectionView.reloadData()
     }
@@ -107,13 +142,13 @@ private extension MainViewController{
     private func createTypeDifficultySectionLayout() -> NSCollectionLayoutSection{
         let item = CompositionalLayout.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), spacing: 0)
         let group = CompositionalLayout.createGroup(alignment: .horizontal, width: .estimated(110), height: .estimated(40), subitems: [item])
-        let section = CompositionalLayout.createSection(group: group, scrollBehavior: .continuous, groupSpacing: 8, leading: 16, trailing: 16, top: 4, bottom: 4, supplementary: [createHeader()])
+        let section = CompositionalLayout.createSection(group: group, scrollBehavior: .continuous, groupSpacing: 16, leading: 16, trailing: 16, top: 4, bottom: 4, supplementary: [createHeader()])
         return section
     }
     
     private func createResultSectionLayout() -> NSCollectionLayoutSection{
         let item = CompositionalLayout.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), spacing: 0)
-        let group = CompositionalLayout.createGroup(alignment: .horizontal, width: .fractionalWidth(0.8), height: .fractionalHeight(0.5), subitems: [item])
+        let group = CompositionalLayout.createGroup(alignment: .horizontal, width: .fractionalWidth(0.9), height: .fractionalHeight(0.5), subitems: [item])
         let section = CompositionalLayout.createSection(group: group, scrollBehavior: .groupPaging, groupSpacing: 12, leading: 16, trailing: 16, top: 4, bottom: 4, supplementary: [createHeader()])
         return section
     }
@@ -137,7 +172,9 @@ extension MainViewController: UICollectionViewDataSource{
         case .difficulty:
             return presenter.difficultyType.count
         case .resultExercises:
-            return presenter.dataExercises.count
+            let datacount = presenter.dataExercises.count == 0 ? 1 :  presenter.dataExercises.count
+            return datacount
+            
         }
     }
     
@@ -148,22 +185,30 @@ extension MainViewController: UICollectionViewDataSource{
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TypeCell.resuseID, for: indexPath) as? TypeCell else { return UICollectionViewCell()}
             let data = presenter.exetcisesType[indexPath.item]
             cell.configCell(typeLabelText: data.typeLabel)
+            presenter?.selectedExercisesType == indexPath ?  cell.setSelectedColors() : cell.setDefaultColors() // change color when reuse and reload collectionView
             return cell
         case .muscleType:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TypeCell.resuseID, for: indexPath) as? TypeCell else { return UICollectionViewCell()}
             let data = presenter.muscleType[indexPath.item]
             cell.configCell(typeLabelText: data.muscleLabel)
+            presenter?.selectedMuscleType == indexPath ?  cell.setSelectedColors() : cell.setDefaultColors()
             return cell
         case .difficulty:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TypeCell.resuseID, for: indexPath) as? TypeCell else { return UICollectionViewCell()}
             let data = presenter.difficultyType[indexPath.item]
             cell.configCell(typeLabelText: data.difficultyLabel)
+            presenter?.selectedDifficultyType == indexPath ?  cell.setSelectedColors() : cell.setDefaultColors()
             return cell
         case .resultExercises:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ResultExercisesCell.resuseID, for: indexPath) as? ResultExercisesCell else { return UICollectionViewCell()}
-            let data = presenter.dataExercises[indexPath.row]
-            cell.configCell(nameExercises: data.name, typeExercises: data.type, muscleType: data.muscle, equipment: data.equipment, difficulty: data.difficulty, instruction: data.instructions)
-            return cell
+            if presenter.dataExercises.count == 0 {
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EmptyResultCell.resuseID, for: indexPath) as? EmptyResultCell else { return UICollectionViewCell() }
+                return cell
+            } else {
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ResultExercisesCell.resuseID, for: indexPath) as? ResultExercisesCell else { return UICollectionViewCell()}
+                let data = presenter.dataExercises[indexPath.row]
+                cell.configCell(nameExercises: data.name, typeExercises: data.type, muscleType: data.muscle, equipment: data.equipment, difficulty: data.difficulty, instruction: data.instructions)
+                return cell
+            }
         }
     }
     
@@ -186,15 +231,39 @@ extension MainViewController: UICollectionViewDelegate{
         let sections = presenter.dataSections[indexPath.section]
         switch sections{
         case .exercisesType:
-            let data = presenter.exetcisesType[indexPath.row]
-            presenter.updateDictionaryParam(key: sections.rawValue, value: data.typeValue, param: .type)
-            
+            if let cell = collectionView.cellForItem(at: indexPath) as? TypeCell {
+                if let previousCell = collectionView.cellForItem(at: presenter.selectedExercisesType) as? TypeCell {
+                    previousCell.setDefaultColors()
+                }
+                cell.setSelectedColors()
+                presenter.selectedExercisesType = indexPath
+                
+                let data = presenter.exetcisesType[indexPath.row]
+                presenter.updateDictionaryParam(key: sections.rawValue, value: data.typeValue)
+            }
         case .muscleType:
-            let data = presenter.muscleType[indexPath.row]
-            presenter.updateDictionaryParam(key: sections.rawValue, value: data.muscleValue, param: .muscle)
+            if let cell = collectionView.cellForItem(at: indexPath) as? TypeCell {
+                if let previousCell = collectionView.cellForItem(at: presenter.selectedMuscleType) as? TypeCell {
+                    previousCell.setDefaultColors()
+                }
+                cell.setSelectedColors()
+                presenter.selectedMuscleType = indexPath
+                
+                let data = presenter.muscleType[indexPath.row]
+                presenter.updateDictionaryParam(key: sections.rawValue, value: data.muscleValue)
+            }
+     
         case .difficulty:
-            let data = presenter.difficultyType[indexPath.row]
-            presenter.updateDictionaryParam(key: sections.rawValue, value: data.difficultyValue, param: .difficulty)
+            if let cell = collectionView.cellForItem(at: indexPath) as? TypeCell {
+                if let previousCell = collectionView.cellForItem(at: presenter.selectedDifficultyType) as? TypeCell {
+                    previousCell.setDefaultColors()
+                }
+                cell.setSelectedColors()
+                presenter.selectedDifficultyType = indexPath
+                
+                let data = presenter.difficultyType[indexPath.row]
+                presenter.updateDictionaryParam(key: sections.rawValue, value: data.difficultyValue)
+            }
         case .resultExercises:
             let data = presenter.difficultyType[indexPath.row]
         }
@@ -215,6 +284,17 @@ private extension MainViewController{
     func setConstrains(){
         view.addSubview(collectionView)
         view.addSubview(searchBar)
+        view.addSubview(blurView)
+        view.addSubview(activityIndicator)
+        view.bringSubviewToFront(activityIndicator)
+        
+        activityIndicator.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
+        }
+        
+        blurView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         
         searchBar.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)

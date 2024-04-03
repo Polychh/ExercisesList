@@ -31,6 +31,10 @@
 		367269872BBD36DA007E82E6 /* ExercisesRequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367269862BBD36DA007E82E6 /* ExercisesRequestProtocol.swift */; };
 		3672698A2BBD3786007E82E6 /* ExercisesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367269892BBD3786007E82E6 /* ExercisesRequest.swift */; };
 		3672698C2BBD39BD007E82E6 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3672698B2BBD39BD007E82E6 /* NetworkManager.swift */; };
+		3672698F2BBD7A72007E82E6 /* AlertContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3672698E2BBD7A72007E82E6 /* AlertContainer.swift */; };
+		367269912BBD7A9B007E82E6 /* AlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367269902BBD7A9B007E82E6 /* AlertVC.swift */; };
+		367269932BBD7D32007E82E6 /* AlertVC + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367269922BBD7D32007E82E6 /* AlertVC + ext.swift */; };
+		367269952BBD8040007E82E6 /* EmptyResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367269942BBD8040007E82E6 /* EmptyResultCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +62,10 @@
 		367269862BBD36DA007E82E6 /* ExercisesRequestProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisesRequestProtocol.swift; sourceTree = "<group>"; };
 		367269892BBD3786007E82E6 /* ExercisesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisesRequest.swift; sourceTree = "<group>"; };
 		3672698B2BBD39BD007E82E6 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		3672698E2BBD7A72007E82E6 /* AlertContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertContainer.swift; sourceTree = "<group>"; };
+		367269902BBD7A9B007E82E6 /* AlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertVC.swift; sourceTree = "<group>"; };
+		367269922BBD7D32007E82E6 /* AlertVC + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AlertVC + ext.swift"; sourceTree = "<group>"; };
+		367269942BBD8040007E82E6 /* EmptyResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResultCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +139,7 @@
 		3672695A2BBBE368007E82E6 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				3672698D2BBD7A57007E82E6 /* AlertViewController */,
 				367269732BBBF2BD007E82E6 /* Headers */,
 				3672696E2BBBEE9B007E82E6 /* Cells */,
 				367269472BBBDFA0007E82E6 /* MainViewController.swift */,
@@ -143,6 +152,7 @@
 			children = (
 				367269642BBBE969007E82E6 /* CompositionalLayout+ ext.swift */,
 				3672697E2BBD2C9E007E82E6 /* UIImage + ext.swift */,
+				367269922BBD7D32007E82E6 /* AlertVC + ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -160,6 +170,7 @@
 			children = (
 				3672696F2BBBEEF1007E82E6 /* TypeCell.swift */,
 				367269712BBBF14E007E82E6 /* ResultExercisesCell.swift */,
+				367269942BBD8040007E82E6 /* EmptyResultCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -213,6 +224,15 @@
 				367269892BBD3786007E82E6 /* ExercisesRequest.swift */,
 			);
 			path = ExercisesRequest;
+			sourceTree = "<group>";
+		};
+		3672698D2BBD7A57007E82E6 /* AlertViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3672698E2BBD7A72007E82E6 /* AlertContainer.swift */,
+				367269902BBD7A9B007E82E6 /* AlertVC.swift */,
+			);
+			path = AlertViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -299,17 +319,21 @@
 				367269702BBBEEF1007E82E6 /* TypeCell.swift in Sources */,
 				367269622BBBE829007E82E6 /* ListSectionModel.swift in Sources */,
 				367269482BBBDFA0007E82E6 /* MainViewController.swift in Sources */,
+				367269912BBD7A9B007E82E6 /* AlertVC.swift in Sources */,
 				367269442BBBDFA0007E82E6 /* AppDelegate.swift in Sources */,
 				367269602BBBE59A007E82E6 /* DifficultyModel.swift in Sources */,
 				367269782BBBF47C007E82E6 /* MainPresenter.swift in Sources */,
+				367269932BBD7D32007E82E6 /* AlertVC + ext.swift in Sources */,
 				367269872BBD36DA007E82E6 /* ExercisesRequestProtocol.swift in Sources */,
 				3672695E2BBBE586007E82E6 /* MuscleTypeModel.swift in Sources */,
+				367269952BBD8040007E82E6 /* EmptyResultCell.swift in Sources */,
 				3672698C2BBD39BD007E82E6 /* NetworkManager.swift in Sources */,
 				367269752BBBF2EF007E82E6 /* HeaderView.swift in Sources */,
 				367269462BBBDFA0007E82E6 /* SceneDelegate.swift in Sources */,
 				3672697B2BBBF4D1007E82E6 /* MainBuilder.swift in Sources */,
 				367269652BBBE969007E82E6 /* CompositionalLayout+ ext.swift in Sources */,
 				3672697F2BBD2C9E007E82E6 /* UIImage + ext.swift in Sources */,
+				3672698F2BBD7A72007E82E6 /* AlertContainer.swift in Sources */,
 				367269722BBBF14E007E82E6 /* ResultExercisesCell.swift in Sources */,
 				3672695C2BBBE39E007E82E6 /* TypeExercisesModel.swift in Sources */,
 			);
