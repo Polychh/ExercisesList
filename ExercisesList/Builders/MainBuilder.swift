@@ -14,7 +14,8 @@ protocol MainBuilderProtocol{
 final class MainBuilder: MainBuilderProtocol{
     func buldMainVC() -> UIViewController {
         let vc = MainViewController()
-        let presenter = MainPresenter(view: vc)
+        let networkManager = NetworkManager()
+        let presenter = MainPresenter(view: vc, network: networkManager)
         vc.presenter = presenter
         return vc
     }

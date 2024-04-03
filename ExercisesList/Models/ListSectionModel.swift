@@ -7,11 +7,11 @@
 
 import Foundation
 
-enum ListSectionModel{
-    case exercisesType
-    case muscleType
-    case difficulty
-    case resultExercises
+enum ListSectionModel: String{
+    case exercisesType = "type"
+    case muscleType = "muscle"
+    case difficulty = "difficulty"
+    case resultExercises = "resultExercises"
     
     var title: String{
         switch self{

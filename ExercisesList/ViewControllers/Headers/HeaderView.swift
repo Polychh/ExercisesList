@@ -13,7 +13,7 @@ class HeaderView: UICollectionReusableView {
     private let headerLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.textColor = .black
+        label.textColor = UIColor(named: ConstColors.greenDark)
         label.numberOfLines = 1
         label.font = .systemFont(ofSize: 16, weight: .bold)
         label.sizeToFit()
@@ -33,7 +33,8 @@ class HeaderView: UICollectionReusableView {
     }
     
     private func setUpViews(){
-        backgroundColor = .none
+        backgroundColor = UIColor(named: ConstColors.yellowLight)
+        
     }
     
     private func setViews(){
