@@ -20,6 +20,7 @@ enum Param{
     case typeExercises
     case typeMuscle
     case difficultyType
+    case allParam
 }
 
 protocol ExercisesRequestProtocol {

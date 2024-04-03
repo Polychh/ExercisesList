@@ -68,6 +68,15 @@ struct ExercisesRequest: ExercisesRequestProtocol{
                 ]
                 return params
             }
+        case .allParam:
+            if let typeExercises, let typeMuscle, let difficultyType{
+                let params = [
+                    "type": "\(typeExercises)",
+                    "muscle": "\(typeMuscle)",
+                    "difficulty": "\(difficultyType)",
+                ]
+                return params
+            }
         }
        return nil
     }
