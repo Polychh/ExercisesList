@@ -25,7 +25,27 @@ final class MainPresenter: MainPresenterProtocol {
     var difficultyType: [DifficultyModel] = DifficultyModel.allCases
     var muscleType: [MuscleTypeModel] = MuscleTypeModel.allCases
     
-    init(view: MainViewProtocol) {
+    var dataExercises: [ResultExercisesModel] = .init()
+    
+    private let network: NetworkMangerProtocol
+    
+    init(view: MainViewProtocol, network: NetworkMangerProtocol ) {
         self.view = view
+        self.network = network
+        fetchCoctailData()
+    }
+   
+    
+    private func fetchCoctailData(){
+        let request = ExercisesRequest(name: nil, typeExercises: nil, typeMuscle: "biceps", difficultyType: nil, paramToChoose: .typeMuscle)
+        Task{ @MainActor in
+            do{
+                let data = try await network.request(request)
+                dataExercises = data
+                print("dataExercises \(dataExercises)")
+            } catch{
+                print(error.localizedDescription)
+            }
+        }
     }
 }
