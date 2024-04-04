@@ -28,6 +28,8 @@ protocol MainPresenterProtocol{
     var selectedExercisesType: IndexPath { get set }
     var selectedMuscleType: IndexPath { get set }
     var selectedDifficultyType: IndexPath { get set }
+    
+    func goToDetailVC(searchWord: String)
 }
 
 final class MainPresenter: MainPresenterProtocol {
@@ -36,6 +38,8 @@ final class MainPresenter: MainPresenterProtocol {
     var selectedExercisesType: IndexPath = .init()
     
     weak var view: MainViewProtocol?
+    private let routerDelegate: CoordinatorMainProtocolDelegate
+    
     var dataSections: [ListSectionModel] = [.exercisesType, .muscleType, .difficulty, .resultExercises]
     var exetcisesType: [TypeExercisesModel] = TypeExercisesModel.allCases
     var difficultyType: [DifficultyModel] = DifficultyModel.allCases
@@ -47,9 +51,10 @@ final class MainPresenter: MainPresenterProtocol {
     
     private let network: NetworkMangerProtocol
     
-    init(view: MainViewProtocol, network: NetworkMangerProtocol ) {
+    init(view: MainViewProtocol, network: NetworkMangerProtocol, routerDelegate: CoordinatorMainProtocolDelegate) {
         self.view = view
         self.network = network
+        self.routerDelegate = routerDelegate
     }
     
     func updateDictionaryParam(key: String, value: String) {
@@ -73,6 +78,10 @@ final class MainPresenter: MainPresenterProtocol {
     func fetchBySearchWord(searchWord: String){
         let request = ExercisesRequest(name: searchWord, typeExercises: nil, typeMuscle: nil, difficultyType: nil, paramToChoose: .name)
         fetchData(request: request)
+    }
+    
+    func goToDetailVC(searchWord: String){
+        routerDelegate.makeSearch(searchWord: searchWord)
     }
         
     

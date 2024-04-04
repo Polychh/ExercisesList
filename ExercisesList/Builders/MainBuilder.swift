@@ -8,14 +8,22 @@
 import UIKit
 
 protocol MainBuilderProtocol{
-    func buldMainVC() -> UIViewController
+    func buldMainVC(routerDelegate: CoordinatorMainProtocolDelegate) -> UIViewController
+    func buildDetailVC(routerDelegate: CoordinatorMainProtocolDelegate, searchWord: String) -> UIViewController
 }
 
 final class MainBuilder: MainBuilderProtocol{
-    func buldMainVC() -> UIViewController {
+    func buildDetailVC(routerDelegate: CoordinatorMainProtocolDelegate, searchWord: String) -> UIViewController{
+        let vc = DetailViewController()
+        let presenter = DetailPresenter(view: vc, routerDelegate: routerDelegate, searchWord: searchWord)
+        vc.presenter = presenter
+        return vc
+    }
+    
+    func buldMainVC(routerDelegate: CoordinatorMainProtocolDelegate) -> UIViewController {
         let vc = MainViewController()
         let networkManager = NetworkManager()
-        let presenter = MainPresenter(view: vc, network: networkManager)
+        let presenter = MainPresenter(view: vc, network: networkManager, routerDelegate: routerDelegate)
         vc.presenter = presenter
         return vc
     }

@@ -47,6 +47,7 @@ class MainViewController: UIViewController {
         view.alpha = 0
         return view
     }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -54,6 +55,7 @@ class MainViewController: UIViewController {
         configureCollectionView()
         setupAppearenceSeacrhBar()
         configActivityIndecator()
+        configNavigationControllerAppearence()
         
     }
 }
@@ -84,6 +86,17 @@ private extension MainViewController{
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         activityIndicator.style = .large
         activityIndicator.color = UIColor(named: ConstColors.greenDark)
+    }
+    
+    func configNavigationControllerAppearence(){
+        navigationItem.title = "ExercisesList"
+
+        if let navigationController = navigationController {
+            navigationController.navigationBar.titleTextAttributes = [
+                NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20),
+                NSAttributedString.Key.foregroundColor: UIColor(named: ConstColors.greenDark) ?? .black
+            ]
+        }
     }
 }
 // MARK: - MainViewProtocol
@@ -274,7 +287,7 @@ extension MainViewController: UICollectionViewDelegate{
 extension MainViewController: UISearchBarDelegate{
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text, !searchText.isEmpty else { return }
-        print(searchText)
+        presenter.goToDetailVC(searchWord: searchText)
         searchBar.resignFirstResponder()
     }
 }
@@ -299,7 +312,7 @@ private extension MainViewController{
         searchBar.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
-            make.top.equalTo(view.snp.top).offset(64)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(8)
             make.height.equalTo(70)
         }
         
