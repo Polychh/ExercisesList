@@ -15,7 +15,8 @@ protocol MainBuilderProtocol{
 final class MainBuilder: MainBuilderProtocol{
     func buildDetailVC(routerDelegate: CoordinatorMainProtocolDelegate, searchWord: String) -> UIViewController{
         let vc = DetailViewController()
-        let presenter = DetailPresenter(view: vc, routerDelegate: routerDelegate, searchWord: searchWord)
+        let networkManager = NetworkManager()
+        let presenter = DetailPresenter(view: vc, routerDelegate: routerDelegate, searchWord: searchWord, network: networkManager)
         vc.presenter = presenter
         return vc
     }

@@ -278,7 +278,7 @@ extension MainViewController: UICollectionViewDelegate{
                 presenter.updateDictionaryParam(key: sections.rawValue, value: data.difficultyValue)
             }
         case .resultExercises:
-            let data = presenter.difficultyType[indexPath.row]
+            break
         }
     }
 }
