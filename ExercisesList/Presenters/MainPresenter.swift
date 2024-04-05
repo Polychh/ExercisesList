@@ -20,10 +20,8 @@ protocol MainPresenterProtocol{
     var difficultyType: [DifficultyModel] { get }
     var muscleType: [MuscleTypeModel] { get }
     
-
     var dataExercises: [ResultExercisesModel] { get }
     func updateDictionaryParam(key: String, value: String)
-    func fetchBySearchWord(searchWord: String)
     
     var selectedExercisesType: IndexPath { get set }
     var selectedMuscleType: IndexPath { get set }
@@ -75,10 +73,7 @@ final class MainPresenter: MainPresenterProtocol {
         }
     }
     
-    func fetchBySearchWord(searchWord: String){
-        let request = ExercisesRequest(name: searchWord, typeExercises: nil, typeMuscle: nil, difficultyType: nil, paramToChoose: .name)
-        fetchData(request: request)
-    }
+   
     
     func goToDetailVC(searchWord: String){
         routerDelegate.makeSearch(searchWord: searchWord)

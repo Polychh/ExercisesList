@@ -254,9 +254,9 @@
 		36CA89AB2BBDD2E700707586 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
+				36CA89B22BBE74ED00707586 /* AppCoordinator.swift */,
 				36CA89AE2BBE742900707586 /* CoordinatorProtocol.swift */,
 				36CA89B02BBE74DD00707586 /* MainCoordinator.swift */,
-				36CA89B22BBE74ED00707586 /* AppCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
